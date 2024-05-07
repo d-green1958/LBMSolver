@@ -17,7 +17,7 @@ EXECUTABLE = $(notdir $(CURDIR))  # Use the directory name as the executable nam
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(SRCS) $(LIBRARY)
-	$(CC) $(CFLAGS) $^ -o $@ -L$(BIN_DIR) -lLBM -I$(SRC_DIR)
+	$(CC) $(CFLAGS) $^ -o $@.exe -L$(BIN_DIR) -lLBM -I$(SRC_DIR)
 
 clean:
 	rm -f $(EXECUTABLE)

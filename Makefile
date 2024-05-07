@@ -14,7 +14,7 @@ LIBRARY = $(BIN_DIR)/libLBM.a
 
 
 # Targets and rules
-all: $(LIBRARY)
+all: $(BIN_DIR) $(BUILD_DIR) $(LIBRARY)
 
 $(LIBRARY): $(OBJS)
 	ar rcs $@ $(OBJS)
