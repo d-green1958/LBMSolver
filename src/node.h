@@ -19,20 +19,58 @@ name: node.h
 #include<vector>
 #include<iostream>
 
+template<typename DATA_TYPE>
 class Node {
 private:
-    std::vector<float> densityFunction; 
-    std::vector<float> position; 
-    std::vector<float> velocity; 
+    // position within lattice
+    std::vector<int> position; 
 
-    float pressure;
+    // num dimensions
+
+
+    // macroscopic quantities
+    std::vector<DATA_TYPE> velocity; 
+    DATA_TYPE pressure;
+    DATA_TYPE density;
+
+    // density functions
+    std::vector<DATA_TYPE> equilibDensityFunc;
+    std::vector<DATA_TYPE> densityFunc;
+    std::vector<DATA_TYPE> streamedDensityFunc;
+
+    // static member variables
+    static std::vector<std::vector<DATA_TYPE>>* velocitySetPtr;
+    static std::vector<DATA_TYPE>* weightSetPtr;
+    static unsigned* numSetDirectionsPtr;
+    static unsigned* numDimensionsPtr;
+    static DATA_TYPE* speedSoundPtr;
+    static DATA_TYPE* speedSoundSquaredPtr;
+
 
 public:
-    // constructor
+    // constructor and destructor
     Node(unsigned dimensions);
-
-    // destructor
     ~Node();
+
+    // helper functions for macroscopic quantities
+    std::vector<DATA_TYPE> getVelocity() const;
+    DATA_TYPE getPressure() const;
+    DATA_TYPE getDensity() const;
+
+
+    // set the macroscopic values
+    void setVelocity(std::vector<DATA_TYPE> newVelocity);
+    void setPressure(DATA_TYPE newPressure);
+
+    // function to se the velocity set
+    void setVelocitySetPtr(std::vector<std::vector<DATA_TYPE>>* setPtr);
+
+    // calculate equilibrium density function
+    void calcEquilibDensityFunc();
+
+    // calculate the macroscopic variables
+    // FINISH THIS
+
 };
 
 #endif
