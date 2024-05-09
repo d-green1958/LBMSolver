@@ -70,7 +70,6 @@ void Node<DATA_TYPE>::calcEquilibDensityFunc()
 {
     DATA_TYPE term1;
     DATA_TYPE term2;
-    DATA_TYPE term3;
 
     // for each component of the velocity set
     for (int i = 0; i < (*numSetDirectionsPtr); i++)
