@@ -15,16 +15,27 @@ name: node.cpp
 */
 
 #include "node.h"
-
-// constructor
+#include <iostream>
+// Define static member variables with nullptrs
 template <typename DATA_TYPE>
-Node<DATA_TYPE>::Node(unsigned numDimensions)
-{
-    densityFunc.resize(numDimensions);
-    printf("dimensions: %u\n", numDimensions);
-};
+std::vector<std::vector<DATA_TYPE>> *Node<DATA_TYPE>::velocitySetPtr = nullptr;
+template <typename DATA_TYPE>
+std::vector<DATA_TYPE> *Node<DATA_TYPE>::weightSetPtr = nullptr;
+template <typename DATA_TYPE>
+unsigned *Node<DATA_TYPE>::numSetDirectionsPtr = nullptr;
+template <typename DATA_TYPE>
+unsigned *Node<DATA_TYPE>::numDimensionsPtr = nullptr;
+template <typename DATA_TYPE>
+DATA_TYPE *Node<DATA_TYPE>::speedSoundPtr = nullptr;
+template <typename DATA_TYPE>
+DATA_TYPE *Node<DATA_TYPE>::speedSoundSquaredPtr = nullptr;
 
-// destructor
+// constructor and destructor
+template <typename DATA_TYPE>
+Node<DATA_TYPE>::Node()
+{
+    std::cout << "NODE CONTRUCTED" << "\n";
+}
 template <typename DATA_TYPE>
 Node<DATA_TYPE>::~Node(){};
 
@@ -72,12 +83,12 @@ void Node<DATA_TYPE>::calcEquilibDensityFunc()
     DATA_TYPE term2;
 
     // for each component of the velocity set
-    for (int i = 0; i < (*numSetDirectionsPtr); i++)
+    for (unsigned i = 0; i < (*numSetDirectionsPtr); i++)
     {
         term1 = 0;
         term2 = 0;
 
-        for (int a = 0; a < (*numDimensionsPtr); a++)
+        for (unsigned a = 0; a < (*numDimensionsPtr); a++)
         {
             term1 += velocity[a] * (*velocitySetPtr)[i][a];
             term2 += velocity[a] * velocity[a];
@@ -86,7 +97,11 @@ void Node<DATA_TYPE>::calcEquilibDensityFunc()
         term2 /= (*speedSoundSquaredPtr);
         term2 /= 2;
 
-        equilibDensityFunc[i] = (*weightSetPtr[i]) * density *
-                                (1 + term1 + (term1 * term1/2) - term2);
+        equilibDensityFunc[i] = (*weightSetPtr)[i] * density *
+                                (1 + term1 + (term1 * term1 / 2) - term2);
     }
 }
+
+// Explicit instantiation for float and double
+template class Node<float>;
+template class Node<double>;

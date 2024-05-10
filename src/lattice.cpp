@@ -16,5 +16,8 @@ name: lattice.cpp
 
 #include "lattice.h"
 
-Lattice::Lattice() {};
-Lattice::~Lattice() {};
+template<typename DATA_TYPE>
+Lattice<DATA_TYPE>::Lattice() {};
+
+template<typename DATA_TYPE>
+Lattice<DATA_TYPE>::~Lattice() {};

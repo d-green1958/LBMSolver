@@ -20,6 +20,7 @@ name: simulation.h
 #include<vector>
 #include "lattice.h"
 
+
 class Simulation {
 private:
     // simulation paramters
@@ -32,7 +33,7 @@ private:
     float dtime;
     float tMax;
 
-    Lattice *latticePtr;
+    //Lattice *latticePtr;
 
 public:
     // run simulation

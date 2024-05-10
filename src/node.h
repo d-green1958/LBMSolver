@@ -49,7 +49,7 @@ private:
 
 public:
     // constructor and destructor
-    Node(unsigned dimensions);
+    Node();
     ~Node();
 
     // helper functions for macroscopic quantities
@@ -72,5 +72,6 @@ public:
     // FINISH THIS
 
 };
+
 
 #endif

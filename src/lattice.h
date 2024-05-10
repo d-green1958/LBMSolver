@@ -20,9 +20,10 @@ name: lattice.h
 #include<vector>
 #include "node.h"
 
+template <typename DATA_TYPE>
 class Lattice {
 private:
-	std::vector<Node*> nodes;
+	std::vector<Node<DATA_TYPE>*> nodes;
 
 public:
 	// constructor

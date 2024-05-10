@@ -3,5 +3,5 @@
 
 int main()
 {
-	Node node(4);
+	Node<double> node;
 }
