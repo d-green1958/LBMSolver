@@ -18,7 +18,7 @@ name: simulation.h
 #define SIMULATION
 
 #include<vector>
-#include"lattice.h"
+#include "lattice.h"
 
 class Simulation {
 private:

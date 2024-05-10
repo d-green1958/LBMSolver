@@ -87,6 +87,6 @@ void Node<DATA_TYPE>::calcEquilibDensityFunc()
         term2 /= 2;
 
         equilibDensityFunc[i] = (*weightSetPtr[i]) * density *
-                                (1 + term1 + term1 * term1 - term2);
+                                (1 + term1 + (term1 * term1/2) - term2);
     }
 }
