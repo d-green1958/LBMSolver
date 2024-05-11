@@ -1,7 +1,9 @@
-#include<iostream>
-#include "node.h"
+#include <iostream>
+#include "latticeBuilder.h"
 
 int main()
 {
-	Node<double> node;
+	latticeBuilder builder;
+
+	builder.addBulkBlock(0,10,0,10,0,10);
 }
