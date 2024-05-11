@@ -1,12 +1,15 @@
 /*
-->	:::        :::::::::  ::::    ::::   <-
-->	:+:        :+:    :+: +:+:+: :+:+:+  <-
-->	+:+        +:+    +:+ +:+ +:+:+ +:+  <-
-->	+#+        +#++:++#+  +#+  +:+  +#+  <-
-->	+#+        +#+    +#+ +#+       +#+  <-
-->	#+#        #+#    #+# #+#       #+#  <-
-->	########## #########  ###       ###  <-
 
+$$\       $$$$$$$\                      
+$$ |      $$  __$$\    $$\       $$\    
+$$ |      $$ |  $$ |   $$ |      $$ |   
+$$ |      $$$$$$$\ |$$$$$$$$\ $$$$$$$$\ 
+$$ |      $$  __$$\ \__$$  __|\__$$  __|
+$$ |      $$ |  $$ |   $$ |      $$ |   
+$$$$$$$$\ $$$$$$$  |   \__|      \__|   
+\________|\_______/                     
+                                        
+                                        
 ###########################################
 filetype: source
 name: node.cpp
@@ -77,29 +80,61 @@ void Node<DATA_TYPE>::setPressure(DATA_TYPE newPressure)
 }
 
 template <typename DATA_TYPE>
+void Node<DATA_TYPE>::calcVelocityAndDensity()
+{
+    // zero the density and velocity
+    density = 0;
+    for (unsigned d = 0; d < (*numDimensionsPtr); d++)
+    {
+        velocity[d] = 0;
+    }
+
+    // sum the zeroth and first moments
+    for (unsigned alpha = 0; alpha < (*numSetDirectionsPtr); alpha++)
+    {
+        density += densityFunc[alpha];
+        for (unsigned d = 0; d < (*numDimensionsPtr); d++)
+        {
+            velocity[d] = (*velocitySetPtr)[alpha][d] * densityFunc[alpha];
+        }
+    }
+
+    // divide first moment to get velocity
+    for (unsigned d = 0; d < (*numDimensionsPtr); d++)
+    {
+        velocity[d] /= density;
+    }
+}
+
+template <typename DATA_TYPE>
 void Node<DATA_TYPE>::calcEquilibDensityFunc()
 {
-    DATA_TYPE term1;
-    DATA_TYPE term2;
+    DATA_TYPE uu, uc;
 
     // for each component of the velocity set
     for (unsigned i = 0; i < (*numSetDirectionsPtr); i++)
     {
-        term1 = 0;
-        term2 = 0;
+        uc = 0;
+        uu = 0;
 
         for (unsigned a = 0; a < (*numDimensionsPtr); a++)
         {
-            term1 += velocity[a] * (*velocitySetPtr)[i][a];
-            term2 += velocity[a] * velocity[a];
+            uc += velocity[a] * (*velocitySetPtr)[i][a];
+            uu += velocity[a] * velocity[a];
         }
-        term1 /= (*speedSoundSquaredPtr);
-        term2 /= (*speedSoundSquaredPtr);
-        term2 /= 2;
+        uc /= (*speedSoundSquaredPtr);
+        uu /= (*speedSoundSquaredPtr);
+        uu /= 2;
 
         equilibDensityFunc[i] = (*weightSetPtr)[i] * density *
-                                (1 + term1 + (term1 * term1 / 2) - term2);
+                                (1 + uc + (uc * uc / 2) - uu);
     }
+}
+
+template <typename DATA_TYPE>
+void Node<DATA_TYPE>::addSisterNode(Node<DATA_TYPE>* nodePtr, unsigned latticeDirection) 
+{
+    sisterNodePtrs[latticeDirection] = nodePtr;
 }
 
 // Explicit instantiation for float and double
