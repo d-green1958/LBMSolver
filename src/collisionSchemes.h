@@ -19,6 +19,12 @@ name: collisionSchemes.h
 #ifndef COLLISION_SCHEMES
 #define COLLISION_SCHEMES
 
-// header for different collision schemes
+#include "node.h"
 
-# endif
+// header for different collision schemes
+template <typename DATA_TYPE>
+class CollisionScheme{
+    virtual void collide(Node<DATA_TYPE> node);
+};
+
+#endif

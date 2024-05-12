@@ -8,7 +8,7 @@ BUILD_DIR = build
 BIN_DIR = bin
 
 # Files
-SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+SRCS = $(shell find $(SRC_DIR) -name '*.cpp')
 OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
 LIBRARY = $(BIN_DIR)/libLBM.a
 
@@ -20,6 +20,7 @@ $(LIBRARY): $(OBJS)
 	ar rcs $@ $(OBJS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BIN_DIR):
@@ -32,4 +33,3 @@ clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
 
 .PHONY: all clean
-

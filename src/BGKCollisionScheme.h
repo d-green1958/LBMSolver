@@ -11,12 +11,19 @@ $$$$$$$$\ $$$$$$$  |   \__|      \__|
                                         
 ###########################################
 filetype: source
-name: collisionSchemes.cpp
+name: BGKCollisionSchemes.h
 ###########################################
 
 */
 
+#ifndef BGK_OPERATOR
+#define BGK_OPEARTOR
+
 #include "collisionSchemes.h"
 
-template<typename DATA_TYPE>
-void CollisionScheme<DATA_TYPE>::collide(Node<DATA_TYPE> node) {};
+template <typename DATA_TYPE>
+class BGKCollisionScheme : public CollisionScheme<DATA_TYPE> {
+    void collide(Node<DATA_TYPE> node, DATA_TYPE omega, DATA_TYPE omegaPrime);
+};
+
+#endif
