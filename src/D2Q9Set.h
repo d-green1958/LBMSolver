@@ -11,7 +11,7 @@ $$$$$$$$\ $$$$$$$  |   \__|      \__|
 
 ###########################################
 filetype: source
-name: D2Q9.h
+name: D2Q9Set.h
 ###########################################
 
 */
@@ -21,10 +21,10 @@ name: D2Q9.h
 
 #include "velocitySet.h"
 
-template <typename DATA_TYPE>
-class D2Q9Set : public velocitySet<DATA_TYPE> {
-public:
-    D2Q9Set();
+template<typename DATA_TYPE>
+struct D2Q9VelocitySet : velocitySet<DATA_TYPE>
+{
+    D2Q9VelocitySet();
 };
 
 #endif

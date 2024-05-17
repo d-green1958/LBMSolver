@@ -17,11 +17,27 @@ name: velocitySet.cpp
 */
 
 #include"velocitySet.h"
-template <typename DATA_TYPE>
-std::vector<DATA_TYPE> velocitySet<DATA_TYPE>::discreteVelocities;
 
 template <typename DATA_TYPE>
-std::vector<DATA_TYPE>* velocitySet<DATA_TYPE>::getPtr()
+void velocitySet<DATA_TYPE>::addVelocity(std::vector<double> velocities)
 {
-    return &discreteVelocities;
+    std::vector<DATA_TYPE> temp;
+    for (double vel : velocities)
+    {
+        temp.push_back(DATA_TYPE(vel));
+    }
+    this->discreteVelocities.push_back(temp);
 };
+
+template <typename DATA_TYPE>
+void velocitySet<DATA_TYPE>::addWeight(double weight)
+{
+    this->weights.push_back(DATA_TYPE(weight));
+};
+
+
+
+
+
+template struct velocitySet<double>;
+template struct velocitySet<float>;
