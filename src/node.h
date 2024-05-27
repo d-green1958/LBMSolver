@@ -20,11 +20,12 @@ name: node.h
 
 #include <vector>
 #include <iostream>
+#include "collisionSchemes.h"
 
 template <typename DATA_TYPE>
 class Node
 {
-private:
+public:
     // position within lattice
     std::vector<int> position;
 
@@ -44,10 +45,13 @@ private:
     // static member variables
     static std::vector<std::vector<DATA_TYPE>> *velocitySetPtr;
     static std::vector<DATA_TYPE> *weightSetPtr;
-    static unsigned *numSetDirectionsPtr;
-    static unsigned *numDimensionsPtr;
     static DATA_TYPE *speedSoundPtr;
     static DATA_TYPE *speedSoundSquaredPtr;
+
+    static unsigned *numSetDirectionsPtr;
+    static unsigned *numDimensionsPtr;
+
+    CollisionScheme<DATA_TYPE> *collisionScheme;
 
 public:
     // constructor and destructor
@@ -73,6 +77,8 @@ public:
     void calcVelocityAndDensity();
 
     void addSisterNode(Node<DATA_TYPE>* nodePtr, unsigned latticeDirection);
+
+    void assignCollisionScheme(CollisionScheme<DATA_TYPE> *collisionSchemePtr);
 };
 
 #endif

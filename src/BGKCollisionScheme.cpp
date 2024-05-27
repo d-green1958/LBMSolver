@@ -18,14 +18,53 @@ name: BGKCollisionSchemes.cpp
 
 #include "BGKCollisionScheme.h"
 
-template <typename DATA_TYPE>
-void BGKCollisionScheme<DATA_TYPE>::collide(Node<DATA_TYPE> node,
-                                            DATA_TYPE omega,
-                                            DATA_TYPE omegaPrime)
+template<typename DATA_TYPE>
+DATA_TYPE BGKCollisionScheme<DATA_TYPE>::tau;
+
+template<typename DATA_TYPE>
+DATA_TYPE BGKCollisionScheme<DATA_TYPE>::omega;
+
+template<typename DATA_TYPE>
+DATA_TYPE BGKCollisionScheme<DATA_TYPE>::omegaPrime;
+
+
+template<typename DATA_TYPE>
+void BGKCollisionScheme<DATA_TYPE>::setParams(DATA_TYPE tau,
+                                                     DATA_TYPE deltaT)
 {
-    for (unsigned alpha = 0; alpha < (*node.numSetDirectionsPtr); alpha++)
+    // this can be optimised since this only needs to be called once.
+    this->tau = tau;
+    this->omega = deltaT/tau;
+    this->omegaPrime = 1 - this->omega;
+};
+
+template<typename DATA_TYPE>
+BGKCollisionScheme<DATA_TYPE>::BGKCollisionScheme(std::vector<DATA_TYPE> *_equilibDensityFuncPtr,
+                       std::vector<DATA_TYPE> *_densityFuncPtr,
+                       std::vector<DATA_TYPE> *_streamedDensityFuncPtr,
+                       unsigned* _numSetDirectionsPtr)
+                       : equilibDensityFuncPtr(_equilibDensityFuncPtr),
+                       densityFuncPtr(_densityFuncPtr),
+                       streamedDensityFuncPtr(_streamedDensityFuncPtr),
+                       numSetDirectionsPtr(_numSetDirectionsPtr)
+{
+    // empty
+};
+
+
+template <typename DATA_TYPE>
+void BGKCollisionScheme<DATA_TYPE>::collide()
+{
+    for (unsigned alpha = 0; alpha < (*numSetDirectionsPtr); alpha++)
     {
-        node.densityFunc[alpha] = omegaPrime * node.streamedDensityFunc[alpha] +
-                                  omega * node.equilibDensityFunc[alpha];
+        (*densityFuncPtr)[alpha] = omegaPrime * (*streamedDensityFuncPtr)[alpha] +
+                                  omega * (*equilibDensityFuncPtr)[alpha];
     }
 };
+
+
+
+template class BGKCollisionScheme<float>;
+template class BGKCollisionScheme<double>;
+
+

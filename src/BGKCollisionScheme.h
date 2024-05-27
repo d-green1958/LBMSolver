@@ -1,14 +1,14 @@
 /*
 
-$$\       $$$$$$$\                      
-$$ |      $$  __$$\    $$\       $$\    
-$$ |      $$ |  $$ |   $$ |      $$ |   
-$$ |      $$$$$$$\ |$$$$$$$$\ $$$$$$$$\ 
+$$\       $$$$$$$\
+$$ |      $$  __$$\    $$\       $$\
+$$ |      $$ |  $$ |   $$ |      $$ |
+$$ |      $$$$$$$\ |$$$$$$$$\ $$$$$$$$\
 $$ |      $$  __$$\ \__$$  __|\__$$  __|
-$$ |      $$ |  $$ |   $$ |      $$ |   
-$$$$$$$$\ $$$$$$$  |   \__|      \__|   
-\________|\_______/                     
-                                        
+$$ |      $$ |  $$ |   $$ |      $$ |
+$$$$$$$$\ $$$$$$$  |   \__|      \__|
+\________|\_______/
+
 ###########################################
 filetype: source
 name: BGKCollisionSchemes.h
@@ -20,10 +20,27 @@ name: BGKCollisionSchemes.h
 #define BGK_OPEARTOR
 
 #include "collisionSchemes.h"
+#include <vector>
 
 template <typename DATA_TYPE>
-class BGKCollisionScheme : public CollisionScheme<DATA_TYPE> {
-    void collide(Node<DATA_TYPE> node, DATA_TYPE omega, DATA_TYPE omegaPrime);
+class BGKCollisionScheme : public CollisionScheme<DATA_TYPE>
+{
+public:
+    static DATA_TYPE tau;
+    static DATA_TYPE omega;
+    static DATA_TYPE omegaPrime;
+
+    std::vector<DATA_TYPE> *equilibDensityFuncPtr;
+    std::vector<DATA_TYPE> *densityFuncPtr;
+    std::vector<DATA_TYPE> *streamedDensityFuncPtr;
+    unsigned *numSetDirectionsPtr;
+
+    BGKCollisionScheme(std::vector<DATA_TYPE> *equilibDensityFuncPtr,
+                       std::vector<DATA_TYPE> *densityFuncPtr,
+                       std::vector<DATA_TYPE> *streamedDensityFuncPtr,
+                       unsigned *numSetDirectionsPtr);
+    void setParams(DATA_TYPE tau, DATA_TYPE deltaT);
+    void collide();
 };
 
 #endif

@@ -19,4 +19,4 @@ name: collisionSchemes.cpp
 #include "collisionSchemes.h"
 
 template<typename DATA_TYPE>
-void CollisionScheme<DATA_TYPE>::collide(Node<DATA_TYPE> node) {};
+void CollisionScheme<DATA_TYPE>::collide() {};
